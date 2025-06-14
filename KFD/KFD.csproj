@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Area\Views\Dish\" />
+    <Folder Include="Areas\Admin\Views\Dish\" />
   </ItemGroup>
 
 </Project>

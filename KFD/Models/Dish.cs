@@ -7,7 +7,7 @@ namespace KFD.Models
     {
         //Constructor
         public Dish(int id, string name, string description,
-                    SqlMoney price, string picture, SqlBoolean isEnabled)
+                    int price, string picture, int isEnabled)
         {
             Id = id;
             Name = name;
@@ -28,10 +28,12 @@ namespace KFD.Models
         [Required]
         public string Description { get; set; }
         [Required]
-        public SqlMoney Price { get; set; }
+        public int Price { get; set; }
         [Required]
         public string Picture { get; set; }
-        public SqlBoolean IsEnabled { get; set; }
+        [Required]
+        [Range(0,1)]
+        public int IsEnabled { get; set; }
 
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 
 namespace KFD.Models
 {
-    public abstract class User
+    public class User
     {
         //Constructor
         protected User(int id, string name, string password, string rol,
-                       string email, string address, SqlBoolean isEnabled)
+                       string email, string address, int isEnabled)
         {
             Id = id;
             Name = name;
@@ -39,7 +39,9 @@ namespace KFD.Models
         [EmailAddress]
         public string Email { get; set; }
         public string Address { get; set; }
-        public SqlBoolean IsEnabled { get; set; }
+        [Required]
+        [Range(0, 1)]
+        public int IsEnabled { get; set; }
         
     }
 }

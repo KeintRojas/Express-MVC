@@ -5,7 +5,8 @@ namespace KFD.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) { 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        { 
         
         }
         public DbSet<Dish> dishes { get; set; }
