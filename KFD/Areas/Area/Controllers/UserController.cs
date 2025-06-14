@@ -2,6 +2,7 @@
 using KFD.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Protocol.Plugins;
 
 namespace KFD.Areas.Area.Controllers
 {
@@ -60,5 +61,33 @@ namespace KFD.Areas.Area.Controllers
             }
             return View();
         }
+        public IActionResult DeletePost(int? id) 
+        {
+            if(id == null || id == 0) 
+            { 
+                return NotFound();
+            }
+            User? userFromDB = _unitOfWork.User.Get(x => x.Id==id);
+            if (userFromDB == null) 
+            {
+                return NotFound() ;
+            }
+            _unitOfWork.User.Remove(userFromDB);
+            _unitOfWork.Save();
+            TempData["success"] = "User Deleted Successfully";
+            return RedirectToAction("Index");
+        }
+        #region API
+        public IActionResult Delete(int id) 
+        { 
+            var userToDelete = _unitOfWork.User.Get(x => x.Id==id);
+            if (userToDelete == null) {
+                return Json(new{success = false, message = "Error Deleting User"});
+            }
+            _unitOfWork.User.Remove(userToDelete);
+            _unitOfWork.Save();
+            return Json(new { success = false, message = "User Deleted Successfully" });
+        }
+        #endregion
     }
 }
