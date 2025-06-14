@@ -5,7 +5,7 @@ namespace KFD.Models
 {
     public class Dish
     {
-        //Cosntructor
+        //Constructor
         public Dish(int id, string name, string description,
                     SqlMoney price, string picture, SqlBoolean isEnabled)
         {
