@@ -1,0 +1,46 @@
+﻿@model List<User>
+
+<partial name="_Notifications" />
+<div class="container">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2>User List</h2>
+		</div>
+
+		<div class="col-6 text-end">
+			<a asp-controller="UserController" asp-action="Create" class="btn btn-primary">New User</a>
+		</div>
+	</div>
+
+	<h1>User List</h1>
+
+	<table class="table table-primary table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>User Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var cat in Model)
+			{
+				<tr>
+					<td>
+						@cat.Name
+					</td>
+					<td>
+						<div class="w-75 btn-group " role="group">
+							<a asp-controller="UserController" asp-action="Edit" asp-route-id="@cat.Id" class="btn btn-primary mx-2">
+								<i class="bi bi-pencil-square"></i>
+								Edit
+							</a>
+							<a asp-controller="UserController" asp-action="Delete" asp-route-id="@cat.Id" class="btn btn-danger mx-2">
+								<i class="bi bi-x-circle"></i>
+								Delete
+							</a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
