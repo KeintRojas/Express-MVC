@@ -11,6 +11,50 @@
 			<label asp-for="Name"></label>
 			<input asp-for="Name" type="text" class="form-control" />
 			<span asp-validation-for="Name" class="text-danger"></span>
+
+			<label asp-for="Password"></label>
+			<input asp-for="Password" type="text" class="form-control" />
+			<span asp-validation-for="Password" class="text-danger"></span>
+
+			@{
+				var roles = new List<SelectListItem>
+			{
+			new SelectListItem { Text = "Adminstrador", Value = "Administrator" },
+			new SelectListItem { Text = "Cliente", Value = "Client" },
+			new SelectListItem { Text = "Chef", Value = "Chef" }
+			};
+			}
+
+			<div class="mb-3">
+				<label asp-for="Rol"></label>
+				<select asp-for="Rol" asp-items="roles" class="form-select">
+					<option disabled selected>--- Seleccione un Rol ---</option>
+				</select>
+			</div>
+
+			<label asp-for="Email"></label>
+			<input asp-for="Email" type="text" class="form-control" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+
+			<label asp-for="Address"></label>
+			<input asp-for="Address" type="text" class="form-control" />
+			<span asp-validation-for="Address" class="text-danger"></span>
+
+			@{
+				var var = new List<SelectListItem>
+			{
+			new SelectListItem { Text = "Habilitado", Value = "1" },
+			new SelectListItem { Text = "Deshabilitado", Value = "0" }
+			};
+			}
+
+			<div class="mb-3">
+				<label asp-for="IsEnabled"></label>
+				<select asp-for="IsEnabled" asp-items="var" class="form-select">
+					<option disabled selected>--- Estatus ---</option>
+				</select>
+			</div>
+
 		</div>
 		<button type="submit" class="btn btn-primary">Create</button>
 		<a asp-controller="User" asp-action="Index" class="btn btn-secondary">Back</a>
