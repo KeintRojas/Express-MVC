@@ -8,7 +8,7 @@
 		</div>
 
 		<div class="col-6 text-end">
-			<a asp-controller="UserController" asp-action="Create" class="btn btn-primary">New User</a>
+			<a asp-controller="User" asp-action="Create" class="btn btn-primary">New User</a>
 		</div>
 	</div>
 
@@ -29,11 +29,11 @@
 					</td>
 					<td>
 						<div class="w-75 btn-group " role="group">
-							<a asp-controller="UserController" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary mx-2">
+							<a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary mx-2">
 								<i class="bi bi-pencil-square"></i>
 								Edit
 							</a>
-							<a asp-controller="UserController" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger mx-2">
+							<a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger mx-2">
 								<i class="bi bi-x-circle"></i>
 								Delete
 							</a>

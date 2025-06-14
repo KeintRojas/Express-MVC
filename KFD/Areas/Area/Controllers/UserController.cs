@@ -5,18 +5,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KFD.Areas.Area.Controllers
 {
+    [Area("Area")]
     public class UserController : Controller
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UserController(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            List<User> userList = unitOfWork.User.GetAll().ToList();
+            List<User> userList = _unitOfWork.User.GetAll().ToList();
             return View(userList);
         }
 
@@ -28,8 +29,8 @@ namespace KFD.Areas.Area.Controllers
         public IActionResult Create(User obj) 
         {
             if (ModelState.IsValid) { 
-                unitOfWork.User.Add(obj);
-                unitOfWork.Save();
+                _unitOfWork.User.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "User Created Successfully";
                 return RedirectToAction("Index");
             }
@@ -41,7 +42,7 @@ namespace KFD.Areas.Area.Controllers
             { 
                 return NotFound();
             }
-            User userFromDB = unitOfWork.User.Get(x => x.Id == id);
+            User userFromDB = _unitOfWork.User.Get(x => x.Id == id);
             if (userFromDB == null)
             {
                 return NotFound();
@@ -52,8 +53,8 @@ namespace KFD.Areas.Area.Controllers
         public IActionResult Edit(User obj) {
             if (ModelState.IsValid) 
             {
-                unitOfWork.User.Update(obj);
-                unitOfWork.Save();
+                _unitOfWork.User.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "User Edited Successfully";
                 return RedirectToAction("Index");
             }
