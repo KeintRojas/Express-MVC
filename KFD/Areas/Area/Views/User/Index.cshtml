@@ -21,19 +21,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var cat in Model)
+			@foreach (var user in Model)
 			{
 				<tr>
 					<td>
-						@cat.Name
+						@user.Name
 					</td>
 					<td>
 						<div class="w-75 btn-group " role="group">
-							<a asp-controller="UserController" asp-action="Edit" asp-route-id="@cat.Id" class="btn btn-primary mx-2">
+							<a asp-controller="UserController" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary mx-2">
 								<i class="bi bi-pencil-square"></i>
 								Edit
 							</a>
-							<a asp-controller="UserController" asp-action="Delete" asp-route-id="@cat.Id" class="btn btn-danger mx-2">
+							<a asp-controller="UserController" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger mx-2">
 								<i class="bi bi-x-circle"></i>
 								Delete
 							</a>
