@@ -7,6 +7,24 @@ namespace KFD.Models
 {
     public abstract class User
     {
+        //Constructor
+        protected User(int id, string name, string password, string rol,
+                       string email, string address, SqlBoolean isEnabled)
+        {
+            Id = id;
+            Name = name;
+            Password = password;
+            Rol = rol;
+            Email = email;
+            Address = address;
+            IsEnabled = isEnabled;
+        }
+
+        public User()
+        {
+        }
+
+        //Atributes
         [Required]
         public int Id { get; set; }
         [Required]
@@ -22,20 +40,6 @@ namespace KFD.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public SqlBoolean IsEnabled { get; set; }
-        public User()
-        {
-        }
-
-        protected User(int id, string name, string password, string rol
-            , string email, string address, SqlBoolean isEnabled)
-        {
-            Id = id;
-            Name = name;
-            Password = password;
-            Rol = rol;
-            Email = email;
-            Address = address;
-            IsEnabled = isEnabled;
-        }
+        
     }
 }

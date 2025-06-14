@@ -5,12 +5,9 @@ namespace KFD.Models
 {
     public class Dish
     {
-        public Dish()
-        {
-        }
-
-        public Dish(int id, string name, string description
-            , SqlMoney price, string picture, SqlBoolean isEnabled)
+        //Cosntructor
+        public Dish(int id, string name, string description,
+                    SqlMoney price, string picture, SqlBoolean isEnabled)
         {
             Id = id;
             Name = name;
@@ -19,7 +16,11 @@ namespace KFD.Models
             Picture = picture;
             IsEnabled = isEnabled;
         }
+        public Dish()
+        {
+        }
 
+        //Atributes
         [Required]
         public int Id { get; set; }
         [Required]
