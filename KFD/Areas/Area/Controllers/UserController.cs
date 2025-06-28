@@ -18,8 +18,8 @@ namespace KFD.Areas.Area.Controllers
 
         public IActionResult Index()
         {
-            List<User> userList = _unitOfWork.User.GetAll().ToList();
-            return View(userList);
+            //List<User> userList = _unitOfWork.User.GetAll().ToList();
+            return View();
         }
 
         public IActionResult Create()
@@ -61,24 +61,14 @@ namespace KFD.Areas.Area.Controllers
             }
             return View();
         }
-        public IActionResult DeletePost(int? id) 
-        {
-            if(id == null || id == 0) 
-            { 
-                return NotFound();
-            }
-            User? userFromDB = _unitOfWork.User.Get(x => x.Id==id);
-            if (userFromDB == null) 
-            {
-                return NotFound() ;
-            }
-            _unitOfWork.User.Remove(userFromDB);
-            _unitOfWork.Save();
-            TempData["success"] = "User Deleted Successfully";
-            return RedirectToAction("Index");
-        }
+       
         #region API
-        public IActionResult Delete(int id) 
+        public IActionResult GetAll() { 
+            var userList = _unitOfWork.User.GetAll();
+            return Json(new { data = userList });
+        }
+        [HttpDelete]
+        public IActionResult Delete(int? id) 
         { 
             var userToDelete = _unitOfWork.User.Get(x => x.Id==id);
             if (userToDelete == null) {
