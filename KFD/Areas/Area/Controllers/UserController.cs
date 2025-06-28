@@ -18,7 +18,6 @@ namespace KFD.Areas.Area.Controllers
 
         public IActionResult Index()
         {
-            //List<User> userList = _unitOfWork.User.GetAll().ToList();
             return View();
         }
 
