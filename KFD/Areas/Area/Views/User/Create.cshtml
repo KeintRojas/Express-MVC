@@ -4,11 +4,11 @@
 <form method="post">
 	<div class="border p-3 mt-4">
 		<div class="row pb-2">
-			<h2> Create new User</h2>
+			<h2> Creacion de Usuario</h2>
 			<hr />
 		</div>
 		<div class="mb-3">
-			<label asp-for="Name"></label>
+			<label asp-for="Name">Nombre</label>
 			<input asp-for="Name" type="text" class="form-control" />
 			<span asp-validation-for="Name" class="text-danger"></span>
 
@@ -32,11 +32,11 @@
 				</select>
 			</div>
 
-			<label asp-for="Email"></label>
+			<label asp-for="Email">Correo</label>
 			<input asp-for="Email" type="text" class="form-control" />
 			<span asp-validation-for="Email" class="text-danger"></span>
 
-			<label asp-for="Address"></label>
+			<label asp-for="Address">Direccion</label>
 			<input asp-for="Address" type="text" class="form-control" />
 			<span asp-validation-for="Address" class="text-danger"></span>
 
@@ -49,15 +49,15 @@
 			}
 
 			<div class="mb-3">
-				<label asp-for="IsEnabled"></label>
+				<label asp-for="IsEnabled">Estado</label>
 				<select asp-for="IsEnabled" asp-items="var" class="form-select">
 					<option disabled selected>--- Estatus ---</option>
 				</select>
 			</div>
 
 		</div>
-		<button type="submit" class="btn btn-primary">Create</button>
-		<a asp-controller="User" asp-action="Index" class="btn btn-secondary">Back</a>
+		<button type="submit" class="btn btn-primary">Crear</button>
+		<a asp-controller="User" asp-action="Index" class="btn btn-secondary">Volver</a>
 	</div>
 </form>
 

@@ -1,0 +1,53 @@
+﻿@using KFD.Models
+@model Dish
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2> Crear un plato nuevo</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Name">Nombre</label>
+			<input asp-for="Name" type="text" class="form-control" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+
+			<label asp-for="Description">Descripcion</label>
+			<input asp-for="Description" type="text" class="form-control" />
+			<span asp-validation-for="Description" class="text-danger"></span>
+
+			<label asp-for="Price">Precio</label>
+			<input asp-for="Price" type="text" class="form-control" />
+			<span asp-validation-for="Price" class="text-danger"></span>
+
+			<label asp-for="Picture">Imagen</label>
+			<input asp-for="Picture" type="text" class="form-control" />
+			<span asp-validation-for="Picture" class="text-danger"></span>
+
+			@{
+				var enabledAux = new List<SelectListItem>
+			{
+			new SelectListItem { Text = "Habilitado", Value = "1" },
+			new SelectListItem { Text = "Deshabilitado", Value = "0" }
+			};
+			}
+
+			<div class="mb-3">
+				<label asp-for="IsEnabled">Estatus</label>
+				<select asp-for="IsEnabled" asp-items="enabledAux" class="form-select">
+					<option disabled selected>--- Estatus ---</option>
+				</select>
+			</div>
+
+		</div>
+		<button type="submit" class="btn btn-primary">Crear</button>
+		<a asp-controller="Dishes" asp-action="Index" class="btn btn-secondary">Volver</a>
+	</div>
+</form>
+
+@section Scripts{
+@{
+		<partial name="_ValidationScriptsPartial" />
+}
+
+}

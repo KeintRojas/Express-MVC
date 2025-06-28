@@ -1,9 +1,9 @@
-﻿@model User
+﻿@model Dish
 
 <form method="post">
 	<div class="border p-3 mt-4">
 		<div class="row pb-2">
-			<h2> Borrar Usuario</h2>
+			<h2> Eliminar Plato</h2>
 			<hr />
 		</div>
 		<div class="mb-3">
@@ -12,7 +12,7 @@
 			<span asp-validation-for="Name" class="text-danger"></span>
 		</div>
 		<button type="submit" class="btn btn-danger">Eliminar</button>
-		<a asp-controller="User" asp-action="Index" class="btn btn-secondary">Volver</a>
+		<a asp-controller="Dish" asp-action="Index" class="btn btn-secondary">Volver</a>
 	</div>
 </form>
 
