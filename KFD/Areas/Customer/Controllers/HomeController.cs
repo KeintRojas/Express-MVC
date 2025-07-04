@@ -19,6 +19,13 @@ namespace KFD.Areas.Customer.Controllers
             IEnumerable<Dish> dishList = _unitOfWork.Dish.GetAll();
             return View(dishList);
         }
-
+        public IActionResult Details(int id) 
+        { 
+            Dish dish = _unitOfWork.Dish.Get(x => x.Id ==  id);
+            if (dish == null) { 
+                return NotFound();
+            }
+            return View(dish);
+        }
     }
 }
