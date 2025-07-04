@@ -29,8 +29,8 @@ namespace KFD.Models
         public string Description { get; set; }
         [Required]
         public int Price { get; set; }
-        [Required]
-        public string Picture { get; set; }
+        
+        public string? Picture { get; set; }
         [Required]
         [Range(0,1)]
         public int IsEnabled { get; set; }

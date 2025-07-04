@@ -14,7 +14,7 @@ namespace KFD.Data.Repository
 
         public void Update(User user)
         {
-            _db.users.Add(user);
+            _db.users.Update(user);
         }
     }
 }
