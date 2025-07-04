@@ -19,13 +19,15 @@ namespace KFD.Areas.Customer.Controllers
             IEnumerable<Dish> dishList = _unitOfWork.Dish.GetAll();
             return View(dishList);
         }
+        #region API
         public IActionResult Details(int id) 
         { 
-            Dish dish = _unitOfWork.Dish.Get(x => x.Id ==  id);
-            if (dish == null) { 
-                return NotFound();
+            var dish = _unitOfWork.Dish.Get(x => x.Id ==  id);
+            if (dish == null) {
+                return Json(new { success = false, message = "Error" });
             }
-            return View(dish);
+            return Json(new { data = dish});
         }
+        #endregion
     }
 }
