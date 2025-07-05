@@ -20,6 +20,11 @@ namespace KFD.Areas.Customer.Controllers
             return View(dishList);
         }
         #region API
+        public IActionResult GetAll()
+        {
+            var dishList = _unitOfWork.Dish.GetAll();
+            return Json(new { data = dishList });
+        }
         public IActionResult Details(int id) 
         { 
             var dish = _unitOfWork.Dish.Get(x => x.Id ==  id);
