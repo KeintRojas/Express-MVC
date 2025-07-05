@@ -1,5 +1,7 @@
 ﻿using KFD.Data.Repository.Interfaces;
 using KFD.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Plugins;
@@ -7,6 +9,7 @@ using NuGet.Protocol.Plugins;
 namespace KFD.Areas.Area.Controllers
 {
     [Area("Area")]
+    [Authorize (Roles = Utilities.StaticValues.Role_Admin)]
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

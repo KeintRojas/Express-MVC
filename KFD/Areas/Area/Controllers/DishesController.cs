@@ -1,10 +1,12 @@
 ﻿using KFD.Data.Repository.Interfaces;
 using KFD.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KFD.Areas.Area.Controllers
 {
     [Area("Area")]
+    [Authorize(Roles = Utilities.StaticValues.Role_Admin)]
     public class DishesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -40,7 +42,7 @@ namespace KFD.Areas.Area.Controllers
                     if (obj.Picture != null)
                     {
                         var oldImageURL = Path.Combine(wwwRootPath, obj.Picture);
-                        if (oldImageURL != Path.Combine(uploads, "unavailable.png"))
+                        if (oldImageURL != Path.Combine(uploads, Utilities.StaticValues.Image_Unavailable))
                         {
                             if (System.IO.File.Exists(oldImageURL))
                             {
@@ -56,7 +58,7 @@ namespace KFD.Areas.Area.Controllers
                     obj.Picture = @"images\dishes\" + fileName + extension;
                 }
                 else { 
-                    obj.Picture = @"images\dishes\unavailable.png";
+                    obj.Picture = @"images\dishes\" + Utilities.StaticValues.Image_Unavailable;
                 }
                 
                 _unitOfWork.Dish.Add(obj);
@@ -93,7 +95,7 @@ namespace KFD.Areas.Area.Controllers
                     if (obj.Picture != null)
                     {
                         var oldImageURL = Path.Combine(wwwRootPath, obj.Picture);
-                        if (oldImageURL != Path.Combine(uploads, "unavailable.png"))
+                        if (oldImageURL != Path.Combine(uploads, Utilities.StaticValues.Image_Unavailable))
                         {
                             if (System.IO.File.Exists(oldImageURL))
                             {
@@ -110,7 +112,7 @@ namespace KFD.Areas.Area.Controllers
                 }
                 else
                 {
-                    obj.Picture = @"images\dishes\unavailable.png";
+                    obj.Picture = @"images\dishes\" + Utilities.StaticValues.Image_Unavailable;
                 }
                 _unitOfWork.Dish.Update(obj);
                 _unitOfWork.Save();
