@@ -13,10 +13,12 @@ namespace KFD.Areas.Area.Controllers
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public UserController(IUnitOfWork unitOfWork)
+        public UserController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -24,61 +26,83 @@ namespace KFD.Areas.Area.Controllers
             return View();
         }
 
-        public IActionResult Create()
-        { 
-            return View();
+        [HttpGet]
+        public IActionResult CheckAuth()
+        {
+            return Ok(new
+            {
+                Username = User.Identity.Name,
+                IsAuthenticated = User.Identity.IsAuthenticated
+            });
+        }
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            return View(user);
         }
         [HttpPost]
-        public IActionResult Create(User obj) 
+        public async Task<IActionResult> Edit(IdentityUser model)
         {
-            if (ModelState.IsValid) { 
-                _unitOfWork.User.Add(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "User Created Successfully";
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+                return NotFound();
+
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+           // user.Name = model.Name;
+            //user.IsEnabled = model.IsEnabled;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                TempData["success"] = "Usuario editado correctamente";
                 return RedirectToAction("Index");
             }
-            return View();
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            return View(model);
         }
-        public IActionResult Edit(int? id) 
-        {
-            if (id == null || id == 0) 
-            { 
-                return NotFound();
-            }
-            User userFromDB = _unitOfWork.User.Get(x => x.Id == id);
-            if (userFromDB == null)
-            {
-                return NotFound();
-            }
-            return View(userFromDB);
-        }
-        [HttpPost]
-        public IActionResult Edit(User obj) {
-            if (ModelState.IsValid) 
-            {
-                _unitOfWork.User.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "User Edited Successfully";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-       
+
         #region API
-        public IActionResult GetAll() { 
-            var userList = _unitOfWork.User.GetAll();
-            return Json(new { data = userList });
+        public IActionResult GetAll() {
+            var users = _userManager.Users.Select(u => new
+            {
+                u.Id,
+                u.UserName,
+                u.Email,
+                u.LockoutEnabled
+            }).ToList();
+
+            return Json(new { data = users });
         }
         [HttpDelete]
-        public IActionResult Delete(int? id) 
-        { 
-            var userToDelete = _unitOfWork.User.Get(x => x.Id==id);
-            if (userToDelete == null) {
-                return Json(new{success = false, message = "Error Deleting User"});
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Error eliminando el usuario" });
             }
-            _unitOfWork.User.Remove(userToDelete);
-            _unitOfWork.Save();
-            return Json(new { success = false, message = "User Deleted Successfully" });
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return Json(new { success = true, message = "Usuario eliminado correctamente" });
+            }
+
+            return Json(new { success = false, message = "Error eliminando el usuario" });
         }
         #endregion
     }

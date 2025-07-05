@@ -10,10 +10,9 @@ function loadDataTable() {
             "url": "/Area/User/GetAll"
         },
         "columns": [
-            { "data": "name", "width": "20%" },
-            { "data": "rol", "width": "10%" },
+            { "data": "userName", "width": "20%" },
             { "data": "email", "width": "30%" },
-            { "data": "isEnabled", "width": "10%" },
+            { "data": "lockoutEnabled", "width": "10%" },
             {
                 "data": "id",
                 "render": function (data) {
@@ -21,7 +20,7 @@ function loadDataTable() {
                         <a href="/Area/User/Edit/${data}" class="btn btn-primary">
                             <i class="bi bi-pencil-square"></i>Edit
                         </a>
-                        <a onClick=Delete(${data}) class="btn btn-danger mx-2">
+                        <a onClick=Delete('${data}') class="btn btn-danger mx-2">
                             <i class="bi bi-x-circle"></i>Delete
                         </a>
                     `
