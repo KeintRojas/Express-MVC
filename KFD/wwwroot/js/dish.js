@@ -20,9 +20,15 @@ function loadDataTable() {
                 "width": "10%",
                 "title": "Imagen",
                 "render": function (data) {
-                    return data
-                        ? `<img src="${data}" alt="Imagen del Plato" style="max-width: 60px; max-height: 60px;" />`
-                        : '';
+                    // Si data es null, undefined o una cadena vacía, no mostrar imagen
+                    if (typeof data === "string" && data.trim() !== "") {
+                        return `
+                                <div class="card" style="width: 70px;">
+                                    <img src="${data}" class="card-img-top" alt="picture" style="max-width: 60px; max-height: 60px; margin: auto; padding-top: 5px;" />
+                                </div>
+                            `;
+                    }
+                    return '';
                 }
             },
             {
