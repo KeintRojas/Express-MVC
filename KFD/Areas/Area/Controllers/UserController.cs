@@ -13,13 +13,13 @@ namespace KFD.Areas.Area.Controllers
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserController(
             IUnitOfWork unitOfWork,
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -34,30 +34,21 @@ namespace KFD.Areas.Area.Controllers
         
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-                return NotFound();
-
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                return NotFound();
-
+            if (user == null) return NotFound();
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(IdentityUser model)
+        public async Task<IActionResult> Edit(ApplicationUser model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
             var user = await _userManager.FindByIdAsync(model.Id);
-            if (user == null)
-                return NotFound();
+            if (user == null) return NotFound();
 
             user.UserName = model.UserName;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
-           // user.Name = model.Name;
-            //user.IsEnabled = model.IsEnabled;
+            user.Name = model.Name;
+            user.IsEnabled = model.IsEnabled;
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -106,12 +97,15 @@ namespace KFD.Areas.Area.Controllers
                 IsAuthenticated = User.Identity.IsAuthenticated
             });
         }
-        public IActionResult GetAll() {
+        public IActionResult GetAll()
+        {
             var users = _userManager.Users.Select(u => new
             {
                 u.Id,
                 u.UserName,
                 u.Email,
+                u.Name,
+                u.IsEnabled,
                 u.LockoutEnabled
             }).ToList();
 
