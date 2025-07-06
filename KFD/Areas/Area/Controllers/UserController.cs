@@ -94,16 +94,29 @@ namespace KFD.Areas.Area.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
+                return Json(new { success = false, message = "Error al encontrar el usuario" });
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Contains("Customer")) {
+                user.IsEnabled = 0;
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (updateResult.Succeeded)
+                {
+                    return Json(new { success = true, message = "Usuario deshabilitado" });
+                }
+                return Json(new { success = false, message = "Error al deshabilitar al usuario" });
+            }
+            else
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return Json(new { success = true, message = "Usuario eliminado correctamente" });
+                }
+
                 return Json(new { success = false, message = "Error eliminando el usuario" });
             }
-
-            var result = await _userManager.DeleteAsync(user);
-            if (result.Succeeded)
-            {
-                return Json(new { success = true, message = "Usuario eliminado correctamente" });
-            }
-
-            return Json(new { success = false, message = "Error eliminando el usuario" });
         }
         #endregion
     }
