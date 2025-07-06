@@ -108,6 +108,9 @@ namespace KFD.Areas.Identity.Pages.Account
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
+            public string Name { get; set; }
+            public int IsEnabled { get; set; }
+
         }
 
 
@@ -150,7 +153,8 @@ namespace KFD.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
+                user.Name = Input.Name;
+                user.IsEnabled = 1;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
