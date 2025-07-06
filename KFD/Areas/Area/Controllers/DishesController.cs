@@ -55,10 +55,10 @@ namespace KFD.Areas.Area.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    obj.Picture = @"images\dishes\" + fileName + extension;
+                    obj.Picture = @"images/dishes/" + fileName + extension;
                 }
                 else { 
-                    obj.Picture = @"images\dishes\" + Utilities.StaticValues.Image_Unavailable;
+                    obj.Picture = @"images/dishes/" + Utilities.StaticValues.Image_Unavailable;
                 }
                 
                 _unitOfWork.Dish.Add(obj);
@@ -108,11 +108,11 @@ namespace KFD.Areas.Area.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    obj.Picture = @"images\dishes\" + fileName + extension;
+                    obj.Picture = @"images/dishes/" + fileName + extension;
                 }
                 else
                 {
-                    obj.Picture = @"images\dishes\" + Utilities.StaticValues.Image_Unavailable;
+                    obj.Picture = @"images/dishes/" + Utilities.StaticValues.Image_Unavailable;
                 }
                 _unitOfWork.Dish.Update(obj);
                 _unitOfWork.Save();
