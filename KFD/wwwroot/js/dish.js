@@ -10,19 +10,30 @@ function loadDataTable() {
             "url": "/Area/Dishes/GetAll"
         },
         "columns": [
-            { "data": "name", "width": "20%" },
-            { "data": "description", "width": "30%" },
-            { "data": "price", "width": "10%" },
-            { "data": "isEnabled", "width": "10%" },
+            { "data": "name", "width": "20%", "title": "Nombre del Plato" },
+            { "data": "description", "width": "30%", "title": "Descripcion" },
+            { "data": "price", "width": "10%", "title": "Precio" },
+            { "data": "isEnabled", "width": "10%", "title": "Estatus", "render": function (data) {
+                    return data === 1 ? "Habilitado" : "Deshabilitado";} },
+            {
+                "data": "picture",
+                "width": "10%",
+                "title": "Imagen",
+                "render": function (data) {
+                    return data
+                        ? `<img src="${data}" alt="Imagen del Plato" style="max-width: 60px; max-height: 60px;" />`
+                        : '';
+                }
+            },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <a href="/Area/Dishes/Edit/${data}" class="btn btn-primary">
-                            <i class="bi bi-pencil-square"></i>Edit
+                            <i class="bi bi-pencil-square"></i>Editar
                         </a>
                         <a onClick=Delete(${data}) class="btn btn-danger mx-2">
-                            <i class="bi bi-x-circle"></i>Delete
+                            <i class="bi bi-x-circle"></i>Eliminar
                         </a>
                     `
                 },
@@ -34,13 +45,14 @@ function loadDataTable() {
 function Delete(_id) {
 
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Estas seguro?",
+        text: "No podras revertir el cambio!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Si, Borrar!",
+        cancelButtonText: "No, me arrepiento!",
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({

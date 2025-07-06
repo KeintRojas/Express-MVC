@@ -10,9 +10,12 @@ function loadDataTable() {
             "url": "/Area/User/GetAll"
         },
         "columns": [
-            { "data": "userName", "width": "20%" },
-            { "data": "email", "width": "30%" },
-            { "data": "lockoutEnabled", "width": "10%" },
+            { "data": "userName", "width": "20%", "title": "Nombre de Usuario" },
+            { "data": "email", "width": "30%", "title": "Correo Electronico" },
+            {
+                "data": "lockoutEnabled", "width": "10%", "title": "Estado", "render": function (data) {
+                    return data === 1 ? "Bloqueado" : "Activo";
+                } },
             {
                 "data": "id",
                 "render": function (data) {
