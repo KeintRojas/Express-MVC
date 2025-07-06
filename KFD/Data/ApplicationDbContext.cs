@@ -12,6 +12,6 @@ namespace KFD.Data
         }
         public DbSet<Dish> dishes { get; set; }
         public DbSet<User> users { get; set; }
-        //public DbSet<ApplicationUser> AppUsers { get; set; }
+        public DbSet<Order> orders { get; set; }
     }
 }

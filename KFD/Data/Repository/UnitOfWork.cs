@@ -8,12 +8,14 @@ namespace KFD.Data.Repository
 
         public IDishRepository Dish { get; private set; }
         public IUserRepository User { get; private set; }
+        public IOrderRepository Order { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Dish = new DishRepository(db);
             User = new UserRepository(db);
+            Order = new OrderRepository(db);
         }
 
         public void Save()
