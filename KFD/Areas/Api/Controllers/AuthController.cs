@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using KFD.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -6,24 +7,26 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+
+
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _config;
 
+    #region API
     public AuthController(
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
+        UserManager<ApplicationUser> userManager,
         IConfiguration config)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _config = config;
     }
-
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto model)
     {
@@ -70,6 +73,7 @@ public class AuthController : ControllerBase
     {
         return Ok(new { message = "Autenticado como " + User.Identity.Name });
     }
+    #endregion
 }
 
 public class LoginDto
