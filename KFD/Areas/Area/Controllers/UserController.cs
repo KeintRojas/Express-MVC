@@ -73,6 +73,29 @@ namespace KFD.Areas.Area.Controllers
         }
 
         #region API
+
+        [HttpPost("Login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return Unauthorized(new { message = "Credenciales inválidas" });
+
+            var result = await _signInManager.PasswordSignInAsync(
+                user.UserName, model.Password, isPersistent: true, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Login exitoso" });
+            }
+
+            return Unauthorized(new { message = "Credenciales inválidas" });
+        }
+
         [HttpGet]
         public IActionResult CheckAuth()
         {
@@ -113,4 +136,11 @@ namespace KFD.Areas.Area.Controllers
         }
         #endregion
     }
+}
+
+
+public class LoginDto
+{
+    public string Email { get; set; }
+    public string Password { get; set; }
 }
