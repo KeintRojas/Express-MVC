@@ -14,11 +14,16 @@ namespace KFD.Areas.Area.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public UserController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
+        public UserController(
+            IUnitOfWork unitOfWork,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -26,15 +31,7 @@ namespace KFD.Areas.Area.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult CheckAuth()
-        {
-            return Ok(new
-            {
-                Username = User.Identity.Name,
-                IsAuthenticated = User.Identity.IsAuthenticated
-            });
-        }
+        
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -76,6 +73,39 @@ namespace KFD.Areas.Area.Controllers
         }
 
         #region API
+
+        [HttpPost("Login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return Unauthorized(new { message = "Credenciales inválidas" });
+
+            var result = await _signInManager.PasswordSignInAsync(
+                user.UserName, model.Password, isPersistent: true, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Login exitoso" });
+            }
+
+            return Unauthorized(new { message = "Credenciales inválidas" });
+        }
+
+        [HttpGet]
+        public IActionResult CheckAuth()
+        {
+
+            return Ok(new
+            {
+                Username = User.Identity.Name,
+                IsAuthenticated = User.Identity.IsAuthenticated
+            });
+        }
         public IActionResult GetAll() {
             var users = _userManager.Users.Select(u => new
             {
@@ -106,4 +136,11 @@ namespace KFD.Areas.Area.Controllers
         }
         #endregion
     }
+}
+
+
+public class LoginDto
+{
+    public string Email { get; set; }
+    public string Password { get; set; }
 }
