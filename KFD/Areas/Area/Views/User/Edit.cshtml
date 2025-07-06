@@ -11,10 +11,6 @@
 			<input asp-for="Name" type="text" class="form-control" />
 			<span asp-validation-for="Name" class="text-danger"></span>
 
-			<label asp-for="Password"></label>
-			<input asp-for="Password" type="text" class="form-control" />
-			<span asp-validation-for="Password" class="text-danger"></span>
-
 			@{
 				var roles = new List<SelectListItem>
 			{
@@ -34,10 +30,6 @@
 			<label asp-for="Email">Correo</label>
 			<input asp-for="Email" type="text" class="form-control" />
 			<span asp-validation-for="Email" class="text-danger"></span>
-
-			<label asp-for="Address">Direccion</label>
-			<input asp-for="Address" type="text" class="form-control" />
-			<span asp-validation-for="Address" class="text-danger"></span>
 
 			@{
 				var enabledAux = new List<SelectListItem>

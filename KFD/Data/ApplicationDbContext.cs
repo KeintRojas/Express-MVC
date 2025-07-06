@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KFD.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { 
@@ -12,6 +12,6 @@ namespace KFD.Data
         }
         public DbSet<Dish> dishes { get; set; }
         public DbSet<User> users { get; set; }
-        public DbSet<ApplicationUser> AppUsers { get; set; }
+        //public DbSet<ApplicationUser> AppUsers { get; set; }
     }
 }
