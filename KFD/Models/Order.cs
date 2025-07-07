@@ -4,6 +4,10 @@ namespace KFD.Models
 {
     public class Order
     {
+        public Order()
+        {
+        }
+
         public Order(int id, string? description, int total, DateTime date, string state)
         {
             Id = id;
