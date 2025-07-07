@@ -32,13 +32,13 @@ namespace KFD.Services
                         string newState;
                         if (elapsed.TotalMinutes < 3)
                         {
-                            newState = "Pendiente";
+                            newState = "A Tiempo";
                         }else if (elapsed.TotalMinutes < 8)
                         {
-                            newState = "Preparando";
+                            newState = "Sobre Tiempo";
                         }else if (elapsed.TotalMinutes < 15)
                         {
-                            newState = "En camino";
+                            newState = "Demorado";
                         }
                         else
                         {
