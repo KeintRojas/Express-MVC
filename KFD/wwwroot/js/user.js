@@ -13,18 +13,18 @@ function loadDataTable() {
             { "data": "userName", "width": "20%", "title": "Nombre de Usuario" },
             { "data": "email", "width": "30%", "title": "Correo Electronico" },
             {
-                "data": "lockoutEnabled", "width": "10%", "title": "Estado", "render": function (data) {
-                    return data === 1 ? "Bloqueado" : "Activo";
+                "data": "isEnabled", "width": "10%", "title": "Estado", "render": function (data) {
+                    return data === 1 ? "Activo" : "Desactivado";
                 } },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <a href="/Area/User/Edit/${data}" class="btn btn-primary">
-                            <i class="bi bi-pencil-square"></i>Edit
+                            <i class="bi bi-pencil-square"></i>Editar
                         </a>
                         <a onClick=Delete('${data}') class="btn btn-danger mx-2">
-                            <i class="bi bi-x-circle"></i>Delete
+                            <i class="bi bi-x-circle"></i>Eliminar
                         </a>
                     `
                 },
@@ -36,13 +36,14 @@ function loadDataTable() {
 function Delete(_id) {
 
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Estas seguro?",
+        text: "No podras revertir el cambio!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Si, Borrar!",
+        cancelButtonText: "No, me arrepiento!",
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
