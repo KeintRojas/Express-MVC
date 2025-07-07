@@ -29,7 +29,7 @@ namespace KFD.Services
                     {
                         var elapsed = now - order.Date;
 
-                        string newState;
+                        string newState = order.State;
                         if (elapsed.TotalMinutes < 3)
                         {
                             newState = "A Tiempo";
@@ -40,10 +40,7 @@ namespace KFD.Services
                         {
                             newState = "Demorado";
                         }
-                        else
-                        {
-                            newState = "Entregado";
-                        }
+                        
                         if (order.State != newState)
                         {
                             order.State = newState;
