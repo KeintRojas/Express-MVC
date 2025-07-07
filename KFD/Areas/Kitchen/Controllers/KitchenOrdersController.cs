@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KFD.Areas.Kitchen.Controllers
 {
     [Area("Kitchen")]
-    //[Authorize(Roles = Utilities.StaticValues.Role_Chef)]
+    [Authorize(Roles = Utilities.StaticValues.Role_Chef)]
     public class KitchenOrdersController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

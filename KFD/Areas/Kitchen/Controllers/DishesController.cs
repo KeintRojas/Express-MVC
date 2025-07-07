@@ -1,26 +1,24 @@
 ﻿using KFD.Data.Repository.Interfaces;
 using KFD.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KFD.Areas.Area.Controllers
+namespace KFD.Areas.Kitchen.Controllers
 {
-    [Area("Area")]
-    [Authorize(Roles = Utilities.StaticValues.Role_Admin)]
+    [Area("Kitchen")]
+    [Authorize(Roles = Utilities.StaticValues.Role_Chef)]
+
     public class DishesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private IWebHostEnvironment _webHostEnvironment;
 
-        public DishesController(IUnitOfWork unitOfWork, 
-            IWebHostEnvironment webHostEnvironment)
+        public DishesController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _webHostEnvironment = webHostEnvironment;
         }
-
-        public IActionResult Index()
-        {
+        public IActionResult Index() { 
             return View();
         }
         public IActionResult Create()
@@ -57,10 +55,11 @@ namespace KFD.Areas.Area.Controllers
                     }
                     obj.Picture = @"images/dishes/" + fileName + extension;
                 }
-                else { 
+                else
+                {
                     obj.Picture = @"images/dishes/" + Utilities.StaticValues.Image_Unavailable;
                 }
-                
+
                 _unitOfWork.Dish.Add(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Dish Save Successfully";
@@ -142,5 +141,4 @@ namespace KFD.Areas.Area.Controllers
         }
         #endregion
     }
-
 }

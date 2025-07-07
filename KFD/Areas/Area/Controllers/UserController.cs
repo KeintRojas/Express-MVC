@@ -9,7 +9,7 @@ using NuGet.Protocol.Plugins;
 namespace KFD.Areas.Area.Controllers
 {
     [Area("Area")]
-    //[Authorize (Roles = Utilities.StaticValues.Role_Admin)]
+    [Authorize (Roles = Utilities.StaticValues.Role_Admin)]
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
