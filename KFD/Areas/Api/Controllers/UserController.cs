@@ -25,6 +25,36 @@ namespace KFD.Areas.Api.Controllers
         }
 
         #region API
+        public async Task<IActionResult> Register([FromBody] ApplicationUser model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Devuelve errores de validación del DTO
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = model.Email, // Identity usa UserName para el login, a menudo es el email
+                Email = model.Email,
+                Name = model.Name,       // Asigna el nombre
+                Address = model.Address, // Asigna la dirección
+                IsEnabled = 1            // Establece el estado de habilitación por defecto
+            };
+
+            var result = await _userManager.CreateAsync(user, model.PasswordHash);
+
+            if (result.Succeeded)
+            {
+                // Opcional: Asignar un rol por defecto, ej. "Usuario"
+                await _userManager.AddToRoleAsync(user, Utilities.StaticValues.Role_Customer);
+
+                return Ok(new { Message = "Registro de usuario exitoso." });
+            }
+
+            // Si el registro falló, extrae los errores de Identity y devuélvelos
+            var errors = result.Errors.Select(e => e.Description);
+            return BadRequest(new { Errors = errors });
+        }
 
         // Permite que el usuario autenticado obtenga su nombre, correo y dirección
         [HttpGet("getuserprofile/{id}")] // Plantilla de ruta modificada
