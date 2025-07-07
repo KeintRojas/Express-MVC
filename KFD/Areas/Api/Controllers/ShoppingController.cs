@@ -14,10 +14,7 @@ namespace KFD.Areas.Api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
         #region API
         [HttpPost]
         public IActionResult Create([FromBody] Order obj)

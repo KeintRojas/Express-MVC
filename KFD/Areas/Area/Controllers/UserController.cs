@@ -64,16 +64,7 @@ namespace KFD.Areas.Area.Controllers
         }
 
         #region API
-        [HttpGet]
-        public IActionResult CheckAuth()
-        {
-
-            return Ok(new
-            {
-                Username = User.Identity.Name,
-                IsAuthenticated = User.Identity.IsAuthenticated
-            });
-        }
+        
         public IActionResult GetAll()
         {
             var users = _userManager.Users.Select(u => new
