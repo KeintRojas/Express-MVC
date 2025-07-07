@@ -25,6 +25,8 @@ namespace KFD.Areas.Api.Controllers
         }
 
         #region API
+
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] ApplicationUser model)
         {
             if (!ModelState.IsValid)
