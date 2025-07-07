@@ -26,16 +26,14 @@ namespace KFD.Areas.Api.Controllers
 
         #region API
 
-        // GET /api/user/getuserprofile/{id}
         // Permite que el usuario autenticado obtenga su nombre, correo y dirección
         [HttpGet("getuserprofile/{id}")] // Plantilla de ruta modificada
         public async Task<IActionResult> GetUserProfile(string id) // Asegurarse de que el id no sea anulable si siempre se espera
         {
             var user = await _userManager.FindByIdAsync(id);
 
-            if (user == null) return NotFound(new { message = "Usuario no encontrado." }); // Mensaje más específico
+            if (user == null) return NotFound(new { message = "Usuario no encontrado." }); 
 
-            // Devolver un DTO en lugar del objeto ApplicationUser completo por seguridad y claridad
             return Ok(new UserProfileDto
             {
                 Email = user.Email,
@@ -72,7 +70,6 @@ namespace KFD.Areas.Api.Controllers
             }
         }
 
-        // NUEVA ACCIÓN: PUT /api/user/UpdateProfile
         [HttpPut("UpdateProfile")]
         public async Task<IActionResult> UpdateProfile([FromBody] ApplicationUser model)
         {
