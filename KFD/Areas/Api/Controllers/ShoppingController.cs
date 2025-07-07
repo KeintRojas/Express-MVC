@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KFD.Areas.Api.Controllers
 {
-    [Area("Customer")]
+    [Area("Api")]
     public class ShoppingController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -31,9 +31,9 @@ namespace KFD.Areas.Api.Controllers
                 _unitOfWork.Order.Add(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Shopping Save Successfully";
-                return RedirectToAction("Index");
+                return Ok(new { message = "Pedido guardado exitosamente." });
             }
-            return View();
+            return BadRequest(ModelState);
         }
         #endregion
     }
