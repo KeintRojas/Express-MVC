@@ -6,5 +6,7 @@ namespace KFD.Models
     {
         public string Name { get; set; }
         public int IsEnabled { get; set; }
+
+        public string Address { get; set; }
     }
 }
