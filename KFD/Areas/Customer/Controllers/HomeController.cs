@@ -7,32 +7,9 @@ namespace KFD.Areas.Customer.Controllers
     [Area("Customer")]
     public class HomeController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public HomeController(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-
         public IActionResult Index()
         {
-            IEnumerable<Dish> dishList = _unitOfWork.Dish.GetAll();
-            return View(dishList);
+            return View();
         }
-        #region API
-        public IActionResult GetAll()
-        {
-            var dishList = _unitOfWork.Dish.GetAll();
-            return Json(new { data = dishList });
-        }
-        public IActionResult Details(int id) 
-        { 
-            var dish = _unitOfWork.Dish.Get(x => x.Id ==  id);
-            if (dish == null) {
-                return Json(new { success = false, message = "Error" });
-            }
-            return Json(new { data = dish});
-        }
-        #endregion
     }
 }

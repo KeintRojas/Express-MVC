@@ -30,10 +30,13 @@
                         @if (User.IsInRole(KFD.Utilities.StaticValues.Role_Admin))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Dishes" asp-action="Index">Platos</a>
+                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Dishes" asp-action="Index">Manejar Platos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Area" asp-controller="User" asp-action="Index">Manejar Usuarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Orders" asp-action="Index">Manejar Pedidos</a>
                             </li>
                         }
 
