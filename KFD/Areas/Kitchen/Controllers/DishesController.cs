@@ -14,9 +14,10 @@ namespace KFD.Areas.Kitchen.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private IWebHostEnvironment _webHostEnvironment;
 
-        public DishesController(IUnitOfWork unitOfWork)
+        public DishesController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index() { 
             return View();
