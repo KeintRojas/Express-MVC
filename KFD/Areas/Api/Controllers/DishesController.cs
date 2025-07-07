@@ -1,4 +1,5 @@
 ﻿using KFD.Data.Repository.Interfaces;
+using KFD.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KFD.Areas.Api.Controllers
@@ -16,7 +17,14 @@ namespace KFD.Areas.Api.Controllers
         #region API
         public IActionResult GetAll()
         {
-            var dishList = _unitOfWork.Dish.GetAll();
+            List<Dish> dishList = new List<Dish>();
+            foreach (var item in _unitOfWork.Dish.GetAll())
+            {
+                if (item.IsEnabled != 0)
+                {
+                    dishList.Add(item);
+                }
+            }
             return Json(new { data = dishList });
         }
         public IActionResult Details(int id)
