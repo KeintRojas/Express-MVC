@@ -24,27 +24,30 @@ namespace KFD.Services
                 var now = DateTime.UtcNow;
                 var orders = await context.orders.ToListAsync(stoppingToken);
 
-                foreach (var order in orders) { 
-                    var elapsed = now - order.Date;
+                foreach (var order in orders) {
+                    if (order.State != "Anulado")
+                    {
+                        var elapsed = now - order.Date;
 
-                    string newState;
-                    if (elapsed.TotalMinutes < 3)
-                    {
-                        newState = "Pendiente";
-                    }else if (elapsed.TotalMinutes < 8)
-                    {
-                        newState = "Preparando";
-                    }else if (elapsed.TotalMinutes < 15)
-                    {
-                        newState = "En camino";
-                    }
-                    else
-                    {
-                        newState = "Entregado";
-                    }
-                    if (order.State != newState)
-                    {
-                        order.State = newState;
+                        string newState;
+                        if (elapsed.TotalMinutes < 3)
+                        {
+                            newState = "Pendiente";
+                        }else if (elapsed.TotalMinutes < 8)
+                        {
+                            newState = "Preparando";
+                        }else if (elapsed.TotalMinutes < 15)
+                        {
+                            newState = "En camino";
+                        }
+                        else
+                        {
+                            newState = "Entregado";
+                        }
+                        if (order.State != newState)
+                        {
+                            order.State = newState;
+                        }
                     }
                 }
                 await context.SaveChangesAsync(stoppingToken);
