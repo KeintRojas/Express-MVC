@@ -24,16 +24,19 @@
             <span asp-validation-for="Date" class="text-danger"></span>
 			
 			@{
-				var enabledAux = new List<SelectListItem>
+				var stateAux = new List<SelectListItem>
 			{
-			new SelectListItem { Text = "Habilitado", Value = "1" },
-			new SelectListItem { Text = "Deshabilitado", Value = "0" }
+			new SelectListItem { Text = "Anulado", Value = "0" },
+			new SelectListItem { Text = "Entregado", Value = "1" },
+			new SelectListItem { Text = "A Tiempo", Value = "2" },
+			new SelectListItem { Text = "Sobre Tiempo", Value = "3" },
+			new SelectListItem { Text = "Demorado", Value = "4" }
 			};
 			}
 
 			<div class="mb-3">
 				<label asp-for="State">Estado</label>
-				<select asp-for="State" asp-items="enabledAux" class="form-select">
+				<select asp-for="State" asp-items="stateAux" class="form-select">
 					<option disabled selected>--- Estado ---</option>
 				</select>
 			</div>
