@@ -27,25 +27,32 @@ namespace KFD.Services
                 foreach (var order in orders) {
                     if (order.State != "Anulado")
                     {
-                        var elapsed = now - order.Date;
+                        if (order.State != "Entregado")
+                        {
+                            var elapsed = now - order.Date;
 
-                        string newState = order.State;
-                        if (elapsed.TotalMinutes < 3)
-                        {
-                            newState = "A Tiempo";
-                        }
-                        else if (elapsed.TotalMinutes < 8)
-                        {
-                            newState = "Sobre Tiempo";
-                        }
-                        else if (elapsed.TotalMinutes < 15)
-                        {
-                            newState = "Demorado";
-                        }
+                            string newState;
+                            if (elapsed.TotalMinutes < 3)
+                            {
+                                newState = "A Tiempo";
+                            }
+                            else if (elapsed.TotalMinutes < 8)
+                            {
+                                newState = "Sobre Tiempo";
+                            }
+                            else if (elapsed.TotalMinutes <= 15)
+                            {
+                                newState = "Demorado";
+                            }
+                            else
+                            {
+                                continue;
+                            }
 
-                        if (order.State != newState)
-                        {
-                            order.State = newState;
+                            if (order.State != newState)
+                            {
+                                order.State = newState;
+                            }
                         }
                     }
                 }
