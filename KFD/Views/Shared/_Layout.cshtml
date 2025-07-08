@@ -40,7 +40,7 @@
                             </li>
                         }
 
-                        @if (User.IsInRole(KFD.Utilities.StaticValues.Role_Chef) || User.IsInRole(KFD.Utilities.StaticValues.Role_Customer))
+                        @if (User.IsInRole(KFD.Utilities.StaticValues.Role_Chef))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Kitchen" asp-controller="Dishes" asp-action="Index">Platos</a>

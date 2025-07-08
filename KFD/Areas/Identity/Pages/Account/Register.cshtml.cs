@@ -191,6 +191,11 @@ namespace KFD.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            TempData["success"] = "Usuario creado correctamente";
+                            return RedirectToPage("/User", new { area = "Area" });
+                        }
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
