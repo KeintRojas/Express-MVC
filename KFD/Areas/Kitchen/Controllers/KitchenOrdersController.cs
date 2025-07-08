@@ -57,6 +57,31 @@ namespace KFD.Areas.Kitchen.Controllers
             }
             return Json(new { data = orderList });
         }
+        [HttpPost]
+        public IActionResult DeliverOrder(int? id) { 
+            Order orderFromDb = _unitOfWork.Order.Get(x => x.Id == id);
+            if (orderFromDb == null)
+            {
+                return Json(new { success = false, message = "Error, no se puede entregar el pedido" });
+            }
+            orderFromDb.State = "Entregado";
+            _unitOfWork.Order.Update(orderFromDb);
+            _unitOfWork.Save();
+            return Json(new { success = false, message = "Entregado" });
+        }
+        [HttpPost]
+        public IActionResult CancelOrder(int? id)
+        {
+            Order orderFromDb = _unitOfWork.Order.Get(x => x.Id == id);
+            if (orderFromDb == null)
+            {
+                return Json(new { success = false, message = "Error, no se puede Anular el pedido" });
+            }
+            orderFromDb.State = "Anulado";
+            _unitOfWork.Order.Update(orderFromDb);
+            _unitOfWork.Save();
+            return Json(new { success = false, message = "Pedido Anulado" });
+        }
         #endregion
     }
 }
