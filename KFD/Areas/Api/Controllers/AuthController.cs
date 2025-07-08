@@ -41,6 +41,9 @@ public class AuthController : ControllerBase
         if (!result.Succeeded)
             return Unauthorized("Credenciales incorrectas");
 
+        if(user.IsEnabled == 0)
+            return Unauthorized ( "Usuario Inavilitado" );
+
         // Generar token JWT
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_config["JwtSettings:Secret"]);

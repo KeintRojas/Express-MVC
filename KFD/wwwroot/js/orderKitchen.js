@@ -1,15 +1,14 @@
 ﻿$(document).ready(function () {
-    loadCards(); 
+    loadCards();
 
-    
     setInterval(function () {
         loadCards();
-    }, 10000); 
+    }, 10000);
 });
-
 
 async function loadCards() {
     const cardsContainer = $('#cardsContainer');
+    const maxOrdersToShow = 10; // Define el número máximo de pedidos a mostrar
 
     try {
         const response = await fetch("/Kitchen/KitchenOrders/GetAll");
@@ -22,10 +21,13 @@ async function loadCards() {
         const responseData = await response.json();
         const orders = responseData.data;
 
-        cardsContainer.empty();
+        cardsContainer.empty(); // Limpiar el contenedor antes de añadir nuevas tarjetas
 
         if (Array.isArray(orders) && orders.length > 0) {
-            orders.forEach(item => {
+            const ordersToShow = orders.slice(0, maxOrdersToShow); // Tomar solo los primeros 'maxOrdersToShow' pedidos
+            const hasMoreOrders = orders.length > maxOrdersToShow; // Verificar si hay más pedidos
+
+            ordersToShow.forEach(item => {
                 let statusBgClass = "";
                 let statusTextColorClass = "";
                 let buttonHtml = '';
@@ -39,7 +41,7 @@ async function loadCards() {
                     minute: '2-digit',
                     hour12: true
                 });
-                
+
                 switch (item.state) {
                     case "A Tiempo":
                         statusBgClass = "bg-success";
@@ -70,11 +72,10 @@ async function loadCards() {
                 }
 
                 if (item.state !== "Entregado" && item.state !== "Anulado") {
- 
                     buttonHtml = `
                         <button class="btn btn-sm btn-success update-status-btn me-2" data-id="${item.id}"
                         data-action="DeliverOrder"
-                        data-state="${item.state}">Entregado</button> 
+                        data-state="${item.state}">Entregado</button>
                         <button class="btn btn-sm btn-danger update-status-btn" data-id="${item.id}"
                         data-action="CancelOrder"
                         data-state="${item.state}">Anular</button>
@@ -106,6 +107,16 @@ async function loadCards() {
                 `;
                 cardsContainer.append(cardHtml);
             });
+
+            // Añadir la leyenda si hay más pedidos de los que se muestran
+            if (hasMoreOrders) {
+                cardsContainer.append(`
+                    <div class="col-12 mt-3">
+                        <p class="alert alert-info text-center">Hay ${orders.length - maxOrdersToShow} pedido(s) más en espera.</p>
+                    </div>
+                `);
+            }
+
         } else {
             cardsContainer.append('<div class="col-12"><p class="alert alert-info">No hay pedidos para mostrar.</p></div>');
         }
@@ -172,15 +183,14 @@ async function performOrderAction(orderId, action, currentState) {
         if (action === "CancelOrder") {
             localStorage.setItem("orderId", orderId)
             localStorage.setItem("previousState", currentState)
-        } 
+        }
         const response = await fetch(`/Kitchen/KitchenOrders/${action}/${orderId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                }
-            
-        });
+            }
 
+        });
 
         const responseData = await response.json();
 
@@ -188,12 +198,12 @@ async function performOrderAction(orderId, action, currentState) {
             Swal.fire({
                 icon: 'success',
                 title: '¡Operación Exitosa!',
-                text: responseData.message || successText, 
+                text: responseData.message || successText,
                 timer: 2000,
                 timerProgressBar: true,
                 showConfirmButton: false
             });
-            loadCards(); 
+            loadCards();
         } else {
             throw new Error(responseData.message || errorText);
         }
@@ -210,10 +220,10 @@ async function performOrderAction(orderId, action, currentState) {
 }
 
 $(document).on('click', '.update-status-btn', function () {
-    const orderId = $(this).data('id');      
+    const orderId = $(this).data('id');
     const action = $(this).data('action');
     const state = $(this).data('state');
-    performOrderAction(orderId, action, state);     
+    performOrderAction(orderId, action, state);
 });
 
 $("#btnUndo").click(async function () {
@@ -223,7 +233,7 @@ $("#btnUndo").click(async function () {
     if (!orderId || !previousState) {
         Swal.fire({
             icon: 'error',
-            title: 'Sin Informacion',
+            title: 'Sin Información',
             text: 'No hay un pedido para deshacer!',
             confirmButtonText: 'Ok',
             cancelButtonText: 'Cancelar'
@@ -256,8 +266,8 @@ $("#btnUndo").click(async function () {
 
         if (response.ok) {
             Swal.fire({
-                title: 'Pedido restaurdado exitosamente!',
-                text: 'El pedido se devolvio a su estado anterior',
+                title: 'Pedido restaurado exitosamente!',
+                text: 'El pedido se devolvió a su estado anterior',
                 icon: 'success',
                 timer: 2000,
                 timerProgressBar: true,
