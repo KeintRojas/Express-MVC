@@ -8,9 +8,10 @@ namespace KFD.Models
         {
         }
 
-        public Order(int id, string? description, int total, DateTime date, string state)
+        public Order(int id, int? clientID, string? description, int total, DateTime date, string state)
         {
             Id = id;
+            this.clientID = clientID;
             Description = description;
             Total = total;
             Date = date;
@@ -18,6 +19,7 @@ namespace KFD.Models
         }
 
         public int Id { get; set; }
+        public int? clientID { get; set; } 
         public string? Description { get; set; }
         [Required]
         public int Total {  get; set; }
