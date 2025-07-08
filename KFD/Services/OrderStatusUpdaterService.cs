@@ -40,7 +40,7 @@ namespace KFD.Services
                             {
                                 newState = "Sobre Tiempo";
                             }
-                            else if (elapsed.TotalMinutes <= 15)
+                            else if (elapsed.TotalMinutes <= 15 || elapsed.TotalMinutes > 15)
                             {
                                 newState = "Demorado";
                             }
