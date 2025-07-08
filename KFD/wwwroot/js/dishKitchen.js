@@ -2,6 +2,9 @@
 
 $(document).ready(function () {
     loadDataTable();
+    setInterval(function () {
+        dataTable.ajax.reload(null, false);
+    }, 30000);
 });
 
 function loadDataTable() {
