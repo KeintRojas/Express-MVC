@@ -128,6 +128,11 @@ namespace KFD.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    if (User.IsInRole(KFD.Utilities.StaticValues.Role_Chef))
+                    {
+                        _logger.LogInformation("Inicio de sesion exitoso.");
+                        return LocalRedirect("/Kitchen/KitchenOrders");
+                    }
                     _logger.LogInformation("Inicio de sesion exitoso.");
                     return LocalRedirect(returnUrl);
                 }

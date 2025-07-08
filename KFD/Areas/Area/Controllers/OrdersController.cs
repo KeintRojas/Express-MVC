@@ -43,10 +43,12 @@ namespace KFD.Areas.Area.Controllers
             {
                 _unitOfWork.Order.Update(obj);
                 _unitOfWork.Save();
+                TempData["success"] = "Pedido editado correctamente";
                 return RedirectToAction("Index");
             }
-            TempData["success"] = "Pedido editado correctamente";
-            return View(obj);
+            TempData["error"] = "No se ha podido editar el pedido";
+
+            return View();
         }
         #region Api
         public async Task<IActionResult> GetAll() 
@@ -60,6 +62,7 @@ namespace KFD.Areas.Area.Controllers
                 result.Add(new
                 {
                     order.Id,
+                    order.CustomerId,
                     order.Description,
                     order.Total,
                     order.Date,

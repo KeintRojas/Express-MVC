@@ -60,6 +60,7 @@ namespace KFD.Areas.Kitchen.Controllers
                 result.Add(new
                 {
                     order.Id,
+                    order.CustomerId,
                     order.Description,
                     order.Total,
                     order.Date,

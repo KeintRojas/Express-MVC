@@ -4,7 +4,7 @@ $(document).ready(function () {
     loadDataTable();
     setInterval(function () {
         dataTable.ajax.reload(null, false); 
-    }, 10000);
+    }, 30000);
 });
 
 function loadDataTable() {
@@ -13,6 +13,8 @@ function loadDataTable() {
             "url": "/Area/Orders/GetAll"
         },
         "columns": [
+            { "data": "deliveryBy", "width": "20%", "title": "Cliente" },
+            { "data": "userName", "width": "30%", "title": "Usuario" },
             { "data": "description", "width": "30%", "title": "Descripcion" },
             { "data": "total", "width": "10%", "title": "Precio Total" },
             { "data": "date", "width": "20%", "title": "Fecha" },
