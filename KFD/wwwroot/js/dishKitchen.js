@@ -29,7 +29,7 @@ function loadDataTable() {
 
                     return `
                                 <div class="card" style="width: 70px;">
-                                    <img src="/${data}" class="card-img-top" alt="picture" style="max-width: 60px; max-height: 60px; margin: auto; padding-top: 5px;" />
+                                    <img src="${data}" class="card-img-top" alt="picture" style="max-width: 60px; max-height: 60px; margin: auto; padding-top: 5px;" />
                                 </div>
                             `;
 
@@ -66,7 +66,7 @@ function Delete(_id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/Kitchen/Dishes/Delete/" + _id,
+                url: "Kitchen/Dishes/Delete/" + _id,
                 type: "DELETE",
                 success: function (data) {
                     if (data.success) {

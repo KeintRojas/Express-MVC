@@ -26,7 +26,7 @@ function loadDataTable() {
                    
                         return `
                                 <div class="card" style="width: 70px;">
-                                    <img src="/${data}" class="card-img-top" alt="picture" style="max-width: 60px; max-height: 60px; margin: auto; padding-top: 5px;" />
+                                    <img src="${data}" class="card-img-top" alt="picture" style="max-width: 60px; max-height: 60px; margin: auto; padding-top: 5px;" />
                                 </div>
                             `;
                   

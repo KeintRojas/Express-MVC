@@ -164,7 +164,7 @@ namespace KFD.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Nueva cuenta creada");
 
                     if (!String.IsNullOrEmpty(Input.Role)) {
                         await _userManager.AddToRoleAsync(user, Input.Role);

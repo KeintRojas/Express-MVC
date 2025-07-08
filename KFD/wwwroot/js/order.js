@@ -4,7 +4,7 @@ $(document).ready(function () {
     loadDataTable();
     setInterval(function () {
         dataTable.ajax.reload(null, false); 
-    }, 30000);
+    }, 10000);
 });
 
 function loadDataTable() {
