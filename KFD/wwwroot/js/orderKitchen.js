@@ -76,7 +76,7 @@ async function loadCards() {
  
                     buttonHtml = `
                         <button class="btn btn-sm btn-success update-status-btn me-2" data-id="${item.id}" data-action="DeliverOrder">Entregado</button>
-                        <button class="btn btn-sm btn-danger update-status-btn" data-id="${item.id}" data-action="CancelOrder">Anulado</button>
+                        <button class="btn btn-sm btn-danger update-status-btn" data-id="${item.id}" data-action="CancelOrder">Anular</button>
                     `;
                 }
 
@@ -84,7 +84,8 @@ async function loadCards() {
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">${item.description}</h5>
+                                <h5 class="card-title">De: ${item.deliveryBy}</h5>
+                                <h5 class="card-text">${item.description}</h5>
                                 <p class="card-text"><strong>Precio Total:</strong> $${item.total}</p>
                                 <p class="card-text"><small class="text-muted">Fecha: ${formattedDate}</small></p>
                                 <p class="card-text">
@@ -133,7 +134,6 @@ async function performOrderAction(orderId, action) {
     let successText = '';
     let errorText = '';
 
-    // Determinar los textos de SweetAlert basados en la acción
     if (action === "DeliverOrder") {
         confirmText = `¿Deseas marcar el pedido ${orderId} como "Entregado"?`;
         successText = `Pedido #${orderId} marcado como "Entregado" con éxito.`;
