@@ -33,14 +33,16 @@ namespace KFD.Services
                         if (elapsed.TotalMinutes < 3)
                         {
                             newState = "A Tiempo";
-                        }else if (elapsed.TotalMinutes < 8)
+                        }
+                        else if (elapsed.TotalMinutes < 8)
                         {
                             newState = "Sobre Tiempo";
-                        }else if (elapsed.TotalMinutes < 15)
+                        }
+                        else if (elapsed.TotalMinutes < 15)
                         {
                             newState = "Demorado";
                         }
-                        
+
                         if (order.State != newState)
                         {
                             order.State = newState;

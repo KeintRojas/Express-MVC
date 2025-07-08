@@ -18,7 +18,7 @@ function loadDataTable() {
                 "data": "id",
                 "render": function (data) {
                     return `
-                        <a href="/Area/Orders/Edit/${data}" class="btn btn-primary">
+                        <a href="/Kitchen/KitchenOrders/Edit/${data}" class="btn btn-primary">
                             <i class="bi bi-pencil-square"></i>Editar
                         </a>
                     `

@@ -36,7 +36,7 @@ function loadDataTable() {
                 "data": "id",
                 "render": function (data) {
                     return `
-                        <a href="/Area/Dishes/Edit/${data}" class="btn btn-primary">
+                        <a href="/Kitchen/Dishes/Edit/${data}" class="btn btn-primary">
                             <i class="bi bi-pencil-square"></i>Editar
                         </a>
                         <a onClick=Delete(${data}) class="btn btn-danger mx-2">
@@ -63,7 +63,7 @@ function Delete(_id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/Area/Dishes/Delete/" + _id,
+                url: "/Kitchen/Dishes/Delete/" + _id,
                 type: "DELETE",
                 success: function (data) {
                     if (data.success) {
