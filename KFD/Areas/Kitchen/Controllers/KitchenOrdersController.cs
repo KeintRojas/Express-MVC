@@ -50,7 +50,7 @@ namespace KFD.Areas.Kitchen.Controllers
             List<Order> orderList = new List<Order>();
             foreach (var item in  _unitOfWork.Order.GetAll())
             {
-                if (!item.State.Contains("Entregado"))
+                if (!item.State.Contains("Entregado") && !item.State.Contains("Anulado"))
                 {
                     orderList.Add(item);
                 }
