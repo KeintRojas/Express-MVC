@@ -32,6 +32,7 @@ function loadDataTable() {
                             break;
                         case "Anulado":
                             cardClass = "bg-danger text-dark";
+                            break;
                         default:
                             cardClass = "bg-secondary text-dark";
                             break;
