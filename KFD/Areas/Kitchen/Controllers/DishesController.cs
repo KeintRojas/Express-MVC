@@ -140,7 +140,7 @@ namespace KFD.Areas.Kitchen.Controllers
             }
             _unitOfWork.Dish.Remove(dishToDelete);
             _unitOfWork.Save();
-            return Json(new { success = false, message = "Dish Deleted Successfully" });
+            return Json(new { success = true, message = "Dish Deleted Successfully" });
         }
         #endregion
     }
