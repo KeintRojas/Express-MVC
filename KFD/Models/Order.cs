@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KFD.Models
 {
@@ -8,10 +10,10 @@ namespace KFD.Models
         {
         }
 
-        public Order(int id, int? clientID, string? description, int total, DateTime date, string state)
+        public Order(int id, string customerId, string? description, int total, DateTime date, string state)
         {
             Id = id;
-            this.clientID = clientID;
+            CustomerId = customerId;
             Description = description;
             Total = total;
             Date = date;
@@ -19,7 +21,8 @@ namespace KFD.Models
         }
 
         public int Id { get; set; }
-        public int? clientID { get; set; } 
+        [Required]
+        public string CustomerId { get; set; }
         public string? Description { get; set; }
         [Required]
         public int Total {  get; set; }

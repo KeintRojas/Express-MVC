@@ -125,7 +125,7 @@ namespace KFD.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("dishes");
+                    b.ToTable("dishes", (string)null);
                 });
 
             modelBuilder.Entity("KFD.Models.Order", b =>
@@ -154,7 +154,7 @@ namespace KFD.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("orders");
+                    b.ToTable("orders", (string)null);
                 });
 
             modelBuilder.Entity("KFD.Models.User", b =>
@@ -190,7 +190,7 @@ namespace KFD.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
