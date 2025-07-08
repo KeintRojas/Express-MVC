@@ -72,8 +72,12 @@ async function loadCards() {
                 if (item.state !== "Entregado" && item.state !== "Anulado") {
  
                     buttonHtml = `
-                        <button class="btn btn-sm btn-success update-status-btn me-2" data-id="${item.id}" data-action="DeliverOrder">Entregado</button>
-                        <button class="btn btn-sm btn-danger update-status-btn" data-id="${item.id}" data-action="CancelOrder">Anular</button>
+                        <button class="btn btn-sm btn-success update-status-btn me-2" data-id="${item.id}"
+                        data-action="DeliverOrder"
+                        data-state="${item.state}">Entregado</button> 
+                        <button class="btn btn-sm btn-danger update-status-btn" data-id="${item.id}"
+                        data-action="CancelOrder"
+                        data-state="${item.state}">Anular</button>
                     `;
                 }
 
@@ -120,10 +124,13 @@ async function loadCards() {
 }
 
 /**
- * @param {number} orderId 
- * @param {string} action 
+ * Función asíncrona para enviar una acción específica (entregar/cancelar) a un pedido en el servidor.
+ * Muestra SweetAlert2 para confirmación y notificaciones de éxito/error.
+ *
+ * @param {number} orderId - El ID del pedido a afectar.
+ * @param {string} action - La acción a realizar ("DeliverOrder" o "CancelOrder").
  */
-async function performOrderAction(orderId, action) {
+async function performOrderAction(orderId, action, currentState) {
     let confirmText = '';
     let successText = '';
     let errorText = '';
@@ -161,7 +168,11 @@ async function performOrderAction(orderId, action) {
     }
 
     try {
-       
+
+        if (action === "CancelOrder") {
+            localStorage.setItem("orderId", orderId)
+            localStorage.setItem("previousState", currentState)
+        } 
         const response = await fetch(`/Kitchen/KitchenOrders/${action}/${orderId}`, {
             method: 'POST',
             headers: {
@@ -200,6 +211,74 @@ async function performOrderAction(orderId, action) {
 
 $(document).on('click', '.update-status-btn', function () {
     const orderId = $(this).data('id');      
-    const action = $(this).data('action');   
-    performOrderAction(orderId, action);     
+    const action = $(this).data('action');
+    const state = $(this).data('state');
+    performOrderAction(orderId, action, state);     
+});
+
+$("#btnUndo").click(async function () {
+    const orderId = localStorage.getItem("orderId");
+    const previousState = localStorage.getItem("previousState");
+
+    if (!orderId || !previousState) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Sin Informacion',
+            text: 'No hay un pedido para deshacer!',
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Cancelar'
+        });
+        return;
+    }
+
+    const result = await Swal.fire({
+        title: '¿Quieres deshacer la anulación?',
+        text: `¿Deseas deshacer el último cambio del pedido #${orderId}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, deshacer!',
+        cancelButtonText: 'No, cancelar'
+    });
+
+    if (!result.isConfirmed) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/Kitchen/KitchenOrders/UndoOrder/${orderId}?previousState=${encodeURIComponent(previousState)}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        });
+
+        if (response.ok) {
+            Swal.fire({
+                title: 'Pedido restaurdado exitosamente!',
+                text: 'El pedido se devolvio a su estado anterior',
+                icon: 'success',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showCancelButton: true
+            });
+
+            localStorage.removeItem("orderId");
+            localStorage.removeItem("previousState");
+
+            loadCards();
+        } else {
+            throw new Error(`Error al restaurar el pedido: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error al deshacer la anulación:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al Deshacer',
+            text: `No se pudo deshacer la anulación del pedido #${orderId}: ${error.message}`,
+            confirmButtonText: 'Ok'
+        });
+    }
 });

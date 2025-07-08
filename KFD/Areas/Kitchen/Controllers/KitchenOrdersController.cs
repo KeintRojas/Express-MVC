@@ -26,6 +26,20 @@ namespace KFD.Areas.Kitchen.Controllers
             return View ( );
         }
 
+        [HttpPost]
+        public IActionResult UndoOrder (int id, string previousState)
+        {
+            var order = _unitOfWork.Order.Get(x => x.Id == id);
+
+            if (order == null)
+                return NotFound();
+
+            order.State = previousState;
+            _unitOfWork.Order.Update(order);
+            _unitOfWork.Save();
+            return Ok();
+        }
+
         #region Api
 
         public async Task<IActionResult> GetAll ( )
