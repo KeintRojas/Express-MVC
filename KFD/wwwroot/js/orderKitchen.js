@@ -180,7 +180,7 @@ async function performOrderAction(orderId, action, currentState) {
 
     try {
 
-        if (action === "CancelOrder") {
+        if (action === "CancelOrder" || action === "DeliverOrder") {
             localStorage.setItem("orderId", orderId)
             localStorage.setItem("previousState", currentState)
         }
