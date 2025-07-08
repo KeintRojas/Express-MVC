@@ -7,10 +7,7 @@
     }, 10000); 
 });
 
-/**
- * Función asíncrona para cargar los pedidos desde el servidor y renderizarlos como tarjetas.
- * Incluye lógica para formatear la fecha, asignar estilos de estado y añadir botones de acción.
- */
+
 async function loadCards() {
     const cardsContainer = $('#cardsContainer');
 
@@ -123,11 +120,8 @@ async function loadCards() {
 }
 
 /**
- * Función asíncrona para enviar una acción específica (entregar/cancelar) a un pedido en el servidor.
- * Muestra SweetAlert2 para confirmación y notificaciones de éxito/error.
- *
- * @param {number} orderId - El ID del pedido a afectar.
- * @param {string} action - La acción a realizar ("DeliverOrder" o "CancelOrder").
+ * @param {number} orderId 
+ * @param {string} action 
  */
 async function performOrderAction(orderId, action) {
     let confirmText = '';

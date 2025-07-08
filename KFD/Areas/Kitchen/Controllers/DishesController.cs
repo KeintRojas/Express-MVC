@@ -65,7 +65,7 @@ namespace KFD.Areas.Kitchen.Controllers
 
                 _unitOfWork.Dish.Add(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "Dish Save Successfully";
+                TempData["success"] = "Plato Guardado Correctamente";
                 return RedirectToAction("Index");
             }
             return View();
@@ -118,7 +118,7 @@ namespace KFD.Areas.Kitchen.Controllers
                 }
                 _unitOfWork.Dish.Update(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "User Edited Successfully";
+                TempData["success"] = "Plato Editado Correctamente";
                 return RedirectToAction("Index");
             }
             return View();
@@ -136,11 +136,11 @@ namespace KFD.Areas.Kitchen.Controllers
             var dishToDelete = _unitOfWork.Dish.Get(x => x.Id == id);
             if (dishToDelete == null)
             {
-                return Json(new { success = false, message = "Error Deleting Dish" });
+                return Json(new { success = false, message = "Error al Eliminar" });
             }
             _unitOfWork.Dish.Remove(dishToDelete);
             _unitOfWork.Save();
-            return Json(new { success = true, message = "Dish Deleted Successfully" });
+            return Json(new { success = true, message = "Plato Eliminado Correctamente" });
         }
         #endregion
     }
