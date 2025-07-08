@@ -24,6 +24,11 @@
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
 
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Address" class="form-control" placeholder="Dirección" />
+                <label asp-for="Input.Address" class="form-label"></label>
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
             
             <div class="form-floating mb-3">
                 <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Ingresa tu numero de telefono."/>

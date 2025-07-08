@@ -10,6 +10,7 @@ using KFD.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace KFD.Areas.Identity.Pages.Account.Manage
 {
@@ -31,7 +32,6 @@ namespace KFD.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string Username { get; set; }
-
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -52,14 +52,16 @@ namespace KFD.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Teléfono")]
             public string PhoneNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Nombre")]
             public string Name { get; set; }
+
+            [Display(Name = "Dirección")]
+            public string Address { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -71,7 +73,9 @@ namespace KFD.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Name = user.Name,
+                Address = user.Address
             };
         }
 
@@ -111,9 +115,18 @@ namespace KFD.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            if (user.Name != Input.Name)
+            {
+                user.Name = Input.Name;
+            }
+            if (user.Address != Input.Address)
+            {
+                user.Address = Input.Address;
+            }
 
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Has Actualizado tu perfil";
             return RedirectToPage();
         }
     }

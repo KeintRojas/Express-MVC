@@ -4,7 +4,7 @@
     
     setInterval(function () {
         loadCards();
-    }, 30000); 
+    }, 10000); 
 });
 
 /**
@@ -42,7 +42,7 @@ async function loadCards() {
                     minute: '2-digit',
                     hour12: true
                 });
-
+                
                 switch (item.state) {
                     case "A Tiempo":
                         statusBgClass = "bg-success";
