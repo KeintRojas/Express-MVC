@@ -39,7 +39,7 @@ namespace KFD.Areas.Kitchen.Controllers
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string fileName = Guid.NewGuid().ToString();
                     string extension = Path.GetExtension(file.FileName);
-                    var uploads = Path.Combine(wwwRootPath, @"/images/dishes");
+                    var uploads = Path.Combine(wwwRootPath, @"images/dishes");
                     if (obj.Picture != null)
                     {
                         var oldImageURL = Path.Combine(wwwRootPath, obj.Picture);
@@ -93,7 +93,7 @@ namespace KFD.Areas.Kitchen.Controllers
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string fileName = Guid.NewGuid().ToString();
                     string extension = Path.GetExtension(file.FileName);
-                    var uploads = Path.Combine(wwwRootPath, @"/images/dishes");
+                    var uploads = Path.Combine(wwwRootPath, @"images/dishes");
                     if (obj.Picture != null)
                     {
                         var oldImageURL = Path.Combine(wwwRootPath, obj.Picture);
