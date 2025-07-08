@@ -1,6 +1,7 @@
 ﻿using KFD.Data.Repository.Interfaces;
 using KFD.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KFD.Areas.Area.Controllers
@@ -10,10 +11,12 @@ namespace KFD.Areas.Area.Controllers
     public class OrdersController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrdersController(IUnitOfWork unitOfWork)
+        public OrdersController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -49,7 +52,23 @@ namespace KFD.Areas.Area.Controllers
         public async Task<IActionResult> GetAll() 
         { 
             var orderList = await _unitOfWork.Order.GetAllAsync();
-            return Json(new { data = orderList });
+            var result = new List<object>();
+
+            foreach (var order in orderList)
+            {
+                var user = await _userManager.FindByIdAsync(order.CustomerId);
+                result.Add(new
+                {
+                    order.Id,
+                    order.Description,
+                    order.Total,
+                    order.Date,
+                    order.State,
+                    DeliveryBy = user?.Name ?? "Desconocido",
+                    UserName = user?.UserName ?? "Desconocido"
+                });
+            }
+            return Json(new { data = result });
         }
         #endregion
     }

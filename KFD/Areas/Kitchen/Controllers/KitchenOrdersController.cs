@@ -1,6 +1,7 @@
 ﻿using KFD.Data.Repository.Interfaces;
 using KFD.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace KFD.Areas.Kitchen.Controllers
     public class KitchenOrdersController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public KitchenOrdersController ( IUnitOfWork unitOfWork )
+        public KitchenOrdersController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index ( )
@@ -23,37 +26,9 @@ namespace KFD.Areas.Kitchen.Controllers
             return View ( );
         }
 
-        public IActionResult Edit ( int? id )
-        {
-            if ( id == null || id == 0 )
-            {
-                return NotFound ( );
-            }
-            Order orderFromDb = _unitOfWork.Order.Get ( x => x.Id == id );
-            if ( orderFromDb == null )
-            {
-                return NotFound ( );
-            }
-
-            return View ( orderFromDb );
-        }
-
-        [HttpPost]
-        public IActionResult Edit ( Order obj )
-        {
-            if ( ModelState.IsValid )
-            {
-                _unitOfWork.Order.Update ( obj );
-                _unitOfWork.Save ( );
-                TempData [ "success" ] = "Pedido editado correctamente";
-                return RedirectToAction ( "Index" );
-            }
-            return View ( obj );
-        }
-
         #region Api
 
-        public IActionResult GetAll ( )
+        public async Task<IActionResult> GetAll ( )
         {
             List<Order> orderList = new List<Order> ( );
             foreach ( var item in _unitOfWork.Order.GetAll ( ) )
@@ -63,7 +38,23 @@ namespace KFD.Areas.Kitchen.Controllers
                     orderList.Add ( item );
                 }
             }
-            return Json ( new { data = orderList } );
+            var result = new List<object>();
+
+            foreach (var order in orderList)
+            {
+                var user = await _userManager.FindByIdAsync(order.CustomerId);
+                result.Add(new
+                {
+                    order.Id,
+                    order.Description,
+                    order.Total,
+                    order.Date,
+                    order.State,
+                    DeliveryBy = user?.Name ?? "Desconocido",
+                    UserName = user?.UserName ?? "Desconocido"
+                });
+            }
+            return Json ( new { data = result } );
         }
 
         [HttpPost]
