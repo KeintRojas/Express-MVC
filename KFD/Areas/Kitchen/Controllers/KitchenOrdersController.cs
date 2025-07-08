@@ -77,7 +77,7 @@ namespace KFD.Areas.Kitchen.Controllers
             orderFromDb.State = "Entregado";
             _unitOfWork.Order.Update ( orderFromDb );
             _unitOfWork.Save ( );
-            return Json ( new { success = true , message = "Pedido entregado correctamente." } ); // <-- Cambiado a success: true
+            return Json ( new { success = true , message = "Pedido entregado correctamente." } ); 
         }
 
         [HttpPost]
@@ -91,7 +91,7 @@ namespace KFD.Areas.Kitchen.Controllers
             orderFromDb.State = "Anulado";
             _unitOfWork.Order.Update ( orderFromDb );
             _unitOfWork.Save ( );
-            return Json ( new { success = true , message = "Pedido anulado correctamente." } ); // <-- Cambiado a success: true
+            return Json ( new { success = true , message = "Pedido anulado correctamente." } ); 
         }
 
         #endregion

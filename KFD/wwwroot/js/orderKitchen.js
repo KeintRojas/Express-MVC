@@ -85,7 +85,7 @@ async function loadCards() {
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">${item.description}</h5>
-                                <p class="card-text"><strong>Precio Total:</strong> C${item.total}</p>
+                                <p class="card-text"><strong>Precio Total:</strong> $${item.total}</p>
                                 <p class="card-text"><small class="text-muted">Fecha: ${formattedDate}</small></p>
                                 <p class="card-text">
                                     <strong>Estado:</strong>

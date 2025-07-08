@@ -6,14 +6,16 @@
         <div class="col-6">
             <h2>Lista de Pedidos</h2>
         </div>
-        @* Puedes añadir aquí más elementos como un botón para recargar las tarjetas si lo necesitas *@
-        @* <div class="col-6 text-end">
-            <button id="reloadCardsButton" class="btn btn-info">Recargar Pedidos</button>
-        </div> *@
+        
+        <div class="col-6 text-end">
+            <a asp-area="Kitchen" asp-controller="Orders" asp-action="UndoOrder" class="btn btn-warning">
+                Deshacer
+            </a>
+        </div>
     </div>
 
-    <hr /> @* Una línea divisoria para mejor separación visual *@
-
+    <hr /> 
+    
     <div id="cardsContainer" class="row">
     </div>
 </div>
