@@ -38,7 +38,7 @@ namespace KFD.Areas.Area.Controllers
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string fileName = Guid.NewGuid().ToString();
                     string extension = Path.GetExtension(file.FileName);
-                    var uploads = Path.Combine(wwwRootPath, @"images/dishes");
+                    var uploads = Path.Combine(wwwRootPath, @"/images/dishes");
                     if (obj.Picture != null)
                     {
                         var oldImageURL = Path.Combine(wwwRootPath, obj.Picture);
@@ -55,10 +55,10 @@ namespace KFD.Areas.Area.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    obj.Picture = @"images/dishes/" + fileName + extension;
+                    obj.Picture = @"/images/dishes/" + fileName + extension;
                 }
                 else { 
-                    obj.Picture = @"images/dishes/" + Utilities.StaticValues.Image_Unavailable;
+                    obj.Picture = @"/images/dishes/" + Utilities.StaticValues.Image_Unavailable;
                 }
                 
                 _unitOfWork.Dish.Add(obj);
@@ -91,7 +91,7 @@ namespace KFD.Areas.Area.Controllers
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string fileName = Guid.NewGuid().ToString();
                     string extension = Path.GetExtension(file.FileName);
-                    var uploads = Path.Combine(wwwRootPath, @"images/dishes");
+                    var uploads = Path.Combine(wwwRootPath, @"/images/dishes");
                     if (obj.Picture != null)
                     {
                         var oldImageURL = Path.Combine(wwwRootPath, obj.Picture);
@@ -108,11 +108,11 @@ namespace KFD.Areas.Area.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    obj.Picture = @"images/dishes/" + fileName + extension;
+                    obj.Picture = @"/images/dishes/" + fileName + extension;
                 }
                 else
                 {
-                    obj.Picture = @"images/dishes/" + Utilities.StaticValues.Image_Unavailable;
+                    obj.Picture = @"/images/dishes/" + Utilities.StaticValues.Image_Unavailable;
                 }
                 _unitOfWork.Dish.Update(obj);
                 _unitOfWork.Save();

@@ -1,4 +1,4 @@
-﻿@*@model List<Dish>*@
+﻿@model List<Dish>
 
 <partial name="_Notifications" />
 <div class="container">
@@ -13,18 +13,31 @@
 			</a>
 		</div>
 	</div>
-	<table class="table table-striped table-bordered" id="tblData">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Price</th>
-				<th>IsEnable</th>
-				<th>Picture</th>
-				<th>Acciones</th> @*Actions*@
-			</tr>
-		</thead>
-	</table>
+    <div class="row pb-0">
+        @foreach ( var thisDish in Model )
+        {
+            <div class="col-sm-12 col-md-6 col-lg-4 mb-2 mt-3">
+                <div class="card bg-secondary border-3 h-100">
+                    <img src="@thisDish.Picture" class="card-img-top" style="height: 100%; object-fit: cover;" alt="@thisDish.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@thisDish.Name</h5>
+                        <p class="card-text">@Html.Raw( thisDish.Description )</p>
+                        <p class="card-text">
+                            Estado:
+                            <span class="btn btn-sm @(thisDish.IsEnabled == 1 ? "btn-success" : "btn-danger")">
+                                @(thisDish.IsEnabled == 1 ? "Disponible" : "No Disponible")
+                            </span>
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex align-items-end">
+                        <a asp-area="Kitchen" asp-controller="Dishes" asp-action="edit" asp-route-id="@thisDish.Id" class="btn btn-primary form-control">Editar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
 </div>
 
 
