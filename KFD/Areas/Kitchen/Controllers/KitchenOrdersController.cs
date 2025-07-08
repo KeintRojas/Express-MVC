@@ -2,86 +2,98 @@
 using KFD.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KFD.Areas.Kitchen.Controllers
 {
-    [Area("Kitchen")]
-    [Authorize(Roles = Utilities.StaticValues.Role_Chef)]
+    [Area ( "Kitchen" )]
+    [Authorize ( Roles = Utilities.StaticValues.Role_Chef )]
     public class KitchenOrdersController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public KitchenOrdersController(IUnitOfWork unitOfWork)
+
+        public KitchenOrdersController ( IUnitOfWork unitOfWork )
         {
             _unitOfWork = unitOfWork;
         }
-        public IActionResult Index()
+
+        public IActionResult Index ( )
         {
-            return View();
+            return View ( );
         }
-        public IActionResult Edit(int? id)
+
+        public IActionResult Edit ( int? id )
         {
-            if (id == null || id == 0)
+            if ( id == null || id == 0 )
             {
-                return NotFound();
+                return NotFound ( );
             }
-            Order orderFromDb = _unitOfWork.Order.Get(x => x.Id == id);
-            if (orderFromDb == null)
+            Order orderFromDb = _unitOfWork.Order.Get ( x => x.Id == id );
+            if ( orderFromDb == null )
             {
-                return NotFound();
+                return NotFound ( );
             }
 
-            return View(orderFromDb);
+            return View ( orderFromDb );
         }
+
         [HttpPost]
-        public IActionResult Edit(Order obj)
+        public IActionResult Edit ( Order obj )
         {
-            if (ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
-                _unitOfWork.Order.Update(obj);
-                _unitOfWork.Save();
-                return RedirectToAction("Index");
+                _unitOfWork.Order.Update ( obj );
+                _unitOfWork.Save ( );
+                TempData [ "success" ] = "Pedido editado correctamente";
+                return RedirectToAction ( "Index" );
             }
-            TempData["success"] = "Pedido editado correctamente";
-            return View(obj);
+            return View ( obj );
         }
+
         #region Api
-        public IActionResult GetAll()
+
+        public IActionResult GetAll ( )
         {
-            List<Order> orderList = new List<Order>();
-            foreach (var item in  _unitOfWork.Order.GetAll())
+            List<Order> orderList = new List<Order> ( );
+            foreach ( var item in _unitOfWork.Order.GetAll ( ) )
             {
-                if (!item.State.Contains("Entregado") && !item.State.Contains("Anulado"))
+                if ( !item.State.Contains ( "Entregado" ) && !item.State.Contains ( "Anulado" ) )
                 {
-                    orderList.Add(item);
+                    orderList.Add ( item );
                 }
             }
-            return Json(new { data = orderList });
+            return Json ( new { data = orderList } );
         }
+
         [HttpPost]
-        public IActionResult DeliverOrder(int? id) { 
-            Order orderFromDb = _unitOfWork.Order.Get(x => x.Id == id);
-            if (orderFromDb == null)
+        public IActionResult DeliverOrder ( int? id )
+        {
+            Order orderFromDb = _unitOfWork.Order.Get ( x => x.Id == id );
+            if ( orderFromDb == null )
             {
-                return Json(new { success = false, message = "Error, no se puede entregar el pedido" });
+                return Json ( new { success = false , message = "Error: El pedido no fue encontrado para entregar." } );
             }
             orderFromDb.State = "Entregado";
-            _unitOfWork.Order.Update(orderFromDb);
-            _unitOfWork.Save();
-            return Json(new { success = false, message = "Entregado" });
+            _unitOfWork.Order.Update ( orderFromDb );
+            _unitOfWork.Save ( );
+            return Json ( new { success = true , message = "Pedido entregado correctamente." } ); // <-- Cambiado a success: true
         }
+
         [HttpPost]
-        public IActionResult CancelOrder(int? id)
+        public IActionResult CancelOrder ( int? id )
         {
-            Order orderFromDb = _unitOfWork.Order.Get(x => x.Id == id);
-            if (orderFromDb == null)
+            Order orderFromDb = _unitOfWork.Order.Get ( x => x.Id == id );
+            if ( orderFromDb == null )
             {
-                return Json(new { success = false, message = "Error, no se puede Anular el pedido" });
+                return Json ( new { success = false , message = "Error: El pedido no fue encontrado para anular." } );
             }
             orderFromDb.State = "Anulado";
-            _unitOfWork.Order.Update(orderFromDb);
-            _unitOfWork.Save();
-            return Json(new { success = false, message = "Pedido Anulado" });
+            _unitOfWork.Order.Update ( orderFromDb );
+            _unitOfWork.Save ( );
+            return Json ( new { success = true , message = "Pedido anulado correctamente." } ); // <-- Cambiado a success: true
         }
+
         #endregion
     }
 }
