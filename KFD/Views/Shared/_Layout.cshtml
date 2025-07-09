@@ -16,7 +16,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-secondary" data-bs-theme="light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="Area" asp-controller="User" asp-action="Index">KFD</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KFD</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,19 +24,25 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                            @if (User.IsInRole(KFD.Utilities.StaticValues.Role_Admin))
+                            {
+                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Home" asp-action="Index">Inicio</a>
+                            }else if ( !User.IsInRole ( KFD.Utilities.StaticValues.Role_Chef) ){
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                                
+                            }
                         </li>
 
                         @if (User.IsInRole(KFD.Utilities.StaticValues.Role_Admin))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Dishes" asp-action="Index">Manejar Platos</a>
+                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Dishes" asp-action="Index">Editar Menu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Area" asp-controller="User" asp-action="Index">Manejar Usuarios</a>
+                                <a class="nav-link text-dark" asp-area="Area" asp-controller="User" asp-action="Index">Administrar Usuarios</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Orders" asp-action="Index">Manejar Pedidos</a>
+                                <a class="nav-link text-dark" asp-area="Area" asp-controller="Orders" asp-action="Index">Gestionar Pedidos</a>
                             </li>
                         }
 

@@ -133,6 +133,12 @@ namespace KFD.Areas.Identity.Pages.Account
                         _logger.LogInformation("Inicio de sesion exitoso.");
                         return LocalRedirect("/Kitchen/KitchenOrders");
                     }
+
+                    if ( User.IsInRole ( KFD.Utilities.StaticValues.Role_Admin ) )
+                    {
+                        _logger.LogInformation ( "Inicio de sesion exitoso." );
+                        return LocalRedirect ( "/Area/Home" );
+                    }
                     _logger.LogInformation("Inicio de sesion exitoso.");
                     return LocalRedirect(returnUrl);
                 }

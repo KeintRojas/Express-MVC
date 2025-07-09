@@ -96,7 +96,7 @@ namespace KFD.Areas.Kitchen.Controllers
                     var uploads = Path.Combine(wwwRootPath, @"images/dishes");
                     if (obj.Picture != null)
                     {
-                        var oldImageURL = Path.Combine(wwwRootPath, obj.Picture);
+                        var oldImageURL = obj.Picture;
                         if (oldImageURL != Path.Combine(uploads, Utilities.StaticValues.Image_Unavailable))
                         {
                             if (System.IO.File.Exists(oldImageURL))
@@ -112,10 +112,7 @@ namespace KFD.Areas.Kitchen.Controllers
                     }
                     obj.Picture = @"/images/dishes/" + fileName + extension;
                 }
-                else
-                {
-                    obj.Picture = @"/images/dishes/" + Utilities.StaticValues.Image_Unavailable;
-                }
+                
                 _unitOfWork.Dish.Update(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Plato Editado Correctamente";
