@@ -4,10 +4,11 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mt-5 accordion-body align">
+        <h1>@ViewData["Title"]</h1>
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2>Crear una nueva cuenta.</h2>
             <hr />
@@ -41,6 +42,7 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+
             @if (User.IsInRole(KFD.Utilities.StaticValues.Role_Admin))
             {
                 <div class="form-floating mb-3">
