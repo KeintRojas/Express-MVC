@@ -13,12 +13,14 @@ function loadDataTable() {
             "url": "/Area/User/GetAll"
         },
         "columns": [
-            { "data": "userName", "width": "20%", "title": "Nombre de Usuario" },
+            { "data": "name", "width": "20%", "title": "Nombre" },
             { "data": "email", "width": "30%", "title": "Correo Electronico" },
+            { "data": "rol", "width": "10%", "title": "Rol" },
             {
                 "data": "isEnabled", "width": "10%", "title": "Estado", "render": function (data) {
                     return data === 1 ? "Activo" : "Desactivado";
                 } },
+
             {
                 "data": "id",
                 "render": function (data) {

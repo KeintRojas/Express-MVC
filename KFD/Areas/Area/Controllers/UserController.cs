@@ -65,19 +65,24 @@ namespace KFD.Areas.Area.Controllers
 
         #region API
         
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var users = _userManager.Users.Select(u => new
-            {
-                u.Id,
-                u.UserName,
-                u.Email,
-                u.Name,
-                u.IsEnabled,
-                u.LockoutEnabled
-            }).ToList();
+            var userList =  _userManager.Users.ToList();
+            var result = new List<Object>();
 
-            return Json(new { data = users });
+            foreach (var user in userList)
+            {
+                result.Add(new {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    user.Name,
+                    user.IsEnabled,
+                    Rol = await _userManager.GetRolesAsync(user)
+                });
+            }
+
+            return Json(new { data = result });
         }
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
