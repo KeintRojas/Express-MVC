@@ -21,11 +21,11 @@ async function loadCards() {
         const responseData = await response.json();
         const orders = responseData.data;
 
-        cardsContainer.empty(); // Limpiar el contenedor antes de añadir nuevas tarjetas
+        cardsContainer.empty(); 
 
         if (Array.isArray(orders) && orders.length > 0) {
-            const ordersToShow = orders.slice(0, maxOrdersToShow); // Tomar solo los primeros 'maxOrdersToShow' pedidos
-            const hasMoreOrders = orders.length > maxOrdersToShow; // Verificar si hay más pedidos
+            const ordersToShow = orders.slice(0, maxOrdersToShow); 
+            const hasMoreOrders = orders.length > maxOrdersToShow; 
 
             ordersToShow.forEach(item => {
                 let statusBgClass = "";
@@ -108,7 +108,7 @@ async function loadCards() {
                 cardsContainer.append(cardHtml);
             });
 
-            // Añadir la leyenda si hay más pedidos de los que se muestran
+           
             if (hasMoreOrders) {
                 cardsContainer.append(`
                     <div class="col-12 mt-3">

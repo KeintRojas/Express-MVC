@@ -4,8 +4,6 @@ namespace KFD.Models
 {
     public class ChangePasswordRequest
     {
-        // Nota: Este UserId podría ser redundante si siempre obtienes el usuario autenticado del HttpContext.User
-        // Pero lo mantenemos si hay un caso de uso donde un admin cambie la de otro, o para consistencia.
         [Required(ErrorMessage = "El ID de usuario es obligatorio.")]
         public string UserId { get; set; }
 
