@@ -51,9 +51,15 @@ namespace KFD.Areas.Area.Controllers
             return View();
         }
         #region Api
-        public async Task<IActionResult> GetAll() 
+        public async Task<IActionResult> GetAll(DateTime? startDate, DateTime? endDate) 
         { 
             var orderList = await _unitOfWork.Order.GetAllAsync();
+            if (startDate.HasValue)
+                orderList = orderList.Where(o => o.Date >= startDate.Value).ToList();
+
+            if (endDate.HasValue)
+                orderList = orderList.Where(o => o.Date <= endDate.Value).ToList();
+
             var result = new List<object>();
 
             foreach (var order in orderList)
