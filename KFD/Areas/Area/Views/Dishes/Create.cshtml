@@ -13,9 +13,11 @@
 			<input asp-for="Name" type="text" class="form-control" />
 			<span asp-validation-for="Name" class="text-danger"></span>
 
-			<label asp-for="Description">Descripcion</label>
-			<input asp-for="Description" type="text" class="form-control" />
-			<span asp-validation-for="Description" class="text-danger"></span>
+			<div class="mb-3">
+				<label asp-for="Description"></label>
+				<textarea asp-for="Description" class="form-control" rows="3"></textarea> />
+				<span asp-validation-for="Description" class="text-danger"></span>
+			</div>
 
 			<label asp-for="Price">Precio</label>
 			<input asp-for="Price" type="text" class="form-control" />
@@ -46,9 +48,18 @@
 	</div>
 </form>
 
-@section Scripts{
-@{
+@section Scripts {
+	<script src="https://cdn.tiny.cloud/1/hdqqbtyuynjhmttfvcsga2bqmuzzq8kg8kuj1z3zuhgfvs41/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+		tinymce.init({
+		  selector: 'textarea',
+		  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+		  toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+		});
+	</script>
+
+	@{
 		<partial name="_ValidationScriptsPartial" />
-}
+	}
 
 }
